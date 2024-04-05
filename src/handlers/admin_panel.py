@@ -69,6 +69,13 @@ async def delete_buttons(message: Message, state: FSMContext):
             text='<b>!!!Режим удаления кнопок!!!</b>\n\n'
                  'Через 30 секунд он автоматически выключится\n\n'
                  'Нажми на кнопку и она исчезнет',
+    )
+    await asyncio.sleep(5)
+    await r.delete()
+    r = await message.answer(
+            text='<b>!!!Режим удаления кнопок!!!</b>\n\n'
+                 'Через 30 секунд он автоматически выключится\n\n'
+                 'Нажми на кнопку и она исчезнет',
             reply_markup=keyboards.welcome_message_kb_without_urls(),
     )
     await state.set_state(FSM_admin_panel.delete_buttons)

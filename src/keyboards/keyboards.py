@@ -26,10 +26,10 @@ edit_buttons_kb = ReplyKeyboardMarkup(
 def welcome_message_kb(amount_of_buttons: int = 3):
     buttons_dct = repository.get_buttons()
     keyboard = InlineKeyboardBuilder()
-    for name, url in random.sample(
-            list(zip(buttons_dct.keys(), buttons_dct.values())),
-            min(amount_of_buttons, len(buttons_dct.keys())),
-    ):
+    button_ids = random.sample(list(buttons_dct.keys()), min(amount_of_buttons, len(buttons_dct)))
+    for button_id in button_ids:
+        name = buttons_dct[button_id]["name"]
+        url = buttons_dct[button_id]["url"]
         keyboard.button(text=name, url=url)
     keyboard.adjust(1)
     return keyboard.as_markup()
@@ -38,7 +38,7 @@ def welcome_message_kb(amount_of_buttons: int = 3):
 def welcome_message_kb_without_urls():
     buttons_dct = repository.get_buttons()
     keyboard = InlineKeyboardBuilder()
-    for name, callback_data in list(zip(buttons_dct.keys(), buttons_dct.keys())):
-        keyboard.button(text=name, callback_data=callback_data)
+    for button_id, button_data in buttons_dct.items():
+        keyboard.button(text=button_data["name"], callback_data=button_id)
     keyboard.adjust(1)
     return keyboard.as_markup()

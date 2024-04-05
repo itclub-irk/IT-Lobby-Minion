@@ -10,17 +10,26 @@ def get_buttons() -> dict:
     return buttons
 
 
+def get_next_button_id(buttons: dict) -> str:
+    if buttons:
+        last_id = max(map(int, buttons.keys()))
+        return str(last_id + 1)
+    else:
+        return "1"
+
+
 def add_button(name: str, url: str):
     buttons = get_buttons()
-    buttons[name] = url
+    new_id = get_next_button_id(buttons)
+    buttons[new_id] = {"name": name, "url": url}
     with open('src/database/buttons.json', 'w') as f:
         json.dump(buttons, f)
+    return new_id
 
 
-def remove_button(*button_names: Tuple[str] | str):
+def remove_button(button_id: str):
     buttons = get_buttons()
-    for button_name in button_names:
-        buttons.pop(button_name, None)
+    del buttons[button_id]
     with open('src/database/buttons.json', 'w') as f:
         json.dump(buttons, f)
 
