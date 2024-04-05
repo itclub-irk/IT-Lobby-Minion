@@ -17,4 +17,8 @@ async def start(message: Message, state: FSMContext):
                 text='Привет!\nТут ты можешь настроить приветственное сообщение',
                 reply_markup=keyboards.admin_panel_kb
         )
+    else:
+        await message.answer(
+                text='Бот доступен только владельцу @lobbyirk'
+        )
     await state.clear()
