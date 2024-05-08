@@ -12,7 +12,9 @@ async def main():
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_routers(
             start.router,
-            admin_panel.router,
+            admin_panel.main_admin_panel_router,
+            admin_panel.static_buttons_router,
+            admin_panel.dynamic_buttons_router,
             new_member.router
     )
     # await bot.delete_webhook(drop_pending_updates=True)]

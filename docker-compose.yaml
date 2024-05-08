@@ -6,4 +6,5 @@ services:
     build: .
     restart: always
     volumes:
-      - ./src/database/:/app/src/database/
+      - ./db_data:/app/db_data
+      - ./logs:/app/logs/
