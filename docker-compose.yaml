@@ -4,4 +4,4 @@ services:
     build: .
     restart: always
     volumes:
-      - ./var/log/it-lobby-minion:/app/logs
+      - /var/log/it-lobby-minion:/app/logs
