@@ -1,10 +1,10 @@
-from datetime import UTC, datetime
+from datetime import datetime
 
 from sqlalchemy import BigInteger, select
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.schemas import UserSchema
 from src.database.connection import Base, async_session_maker
+from src.schemas import UserSchema
 
 
 class User(Base):

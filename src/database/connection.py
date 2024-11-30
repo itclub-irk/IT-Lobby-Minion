@@ -1,11 +1,10 @@
-import os
-
+from dotenv import load_dotenv
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
-from dotenv import load_dotenv
 
 from src.config import DATABASE_URL
+
 load_dotenv()
 
 

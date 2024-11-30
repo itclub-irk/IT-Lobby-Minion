@@ -1,9 +1,8 @@
-from random import sample
-
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from src.schemas import ButtonTypeEnum as BTE
+
 from src.database.models import DbButton
+from src.schemas import ButtonTypeEnum as BTE
 
 admin_panel_kb = ReplyKeyboardMarkup(
     keyboard=[

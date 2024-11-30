@@ -88,7 +88,7 @@ async def prepare_static_buttons(message: Message, state: FSMContext):
 
 @router.callback_query(FSM_StaticButtons.delete_buttons,  AdminRoleFilter())
 @logger.catch
-async def delete_static_buttons(qq: CallbackQuery, state: FSMContext):
+async def delete_static_buttons(qq: CallbackQuery):
     await DbButton.delete_button(int(qq.data))
     await qq.message.edit_reply_markup(
         reply_markup=(await get_buttons_for_delete(static=True))

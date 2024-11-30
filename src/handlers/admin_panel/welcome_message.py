@@ -2,13 +2,11 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from src.config import BOT_ADMINS_IDS
+from src.database.models import DbSettings
 from src.states.admin import FSM_admin_panel
 from src.utils.filters import AdminRoleFilter
 from src.utils.keyboards.join2group import welcome_keyboard
 from src.utils.welcome_message import configure_welcome_message
-
-from src.database.models import DbSettings
 
 router = Router()
 

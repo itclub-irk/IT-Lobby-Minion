@@ -21,5 +21,4 @@ bot = Bot(
         default=DefaultBotProperties(parse_mode='HTML')
 )
 BOT_ADMINS_IDS = list(map(int, os.getenv('BOT_ADMINS_IDS').split(',')))
-logger.debug(f'Администраторы бота: {BOT_ADMINS_IDS}')
 DATABASE_URL = os.getenv('SQLALCHEMY_URL')
