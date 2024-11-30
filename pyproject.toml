@@ -1,15 +1,18 @@
 [tool.poetry]
 name = "IT-Lobby-Minion"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
-authors = ["Ivan Krakovskii <iv.krak@gmail.com>"]
+authors = ["Ivan Krakovskii <ivkrak@embersky.ru>", "Yaroslav Lysov <lysov.yaroslav.r@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-aiogram = "^3.4.1"
+aiogram = "^3.15.0"
 loguru = "^0.7.2"
 python-dotenv = "^1.0.1"
+sqlalchemy = "^2.0.36"
+asyncpg = "^0.30.0"
+alembic = "^1.14.0"
 
 
 [build-system]

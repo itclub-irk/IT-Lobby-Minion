@@ -1,68 +1,26 @@
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
+from aiogram.filters import Command
+from src.config import logger
 
-from src.database import repository
-from src.keyboards import welcome_message_kb
-from src.settings import BOT_ADMIN_ID
-from src.states import FSM_admin_panel
+from src.config import BOT_ADMINS_IDS
+from src.utils.filters import AdminRoleFilter
+from src.utils.keyboards.admin import admin_panel_kb
 
 router = Router()
 
 
-@router.message(F.text == 'Посмотреть приветственное сообщение')
-async def get_welcome_message(message: Message, state: FSMContext):
-    if message.from_user.id != BOT_ADMIN_ID:
-        await message.answer('Только админ может делать это')
-        await message.delete()
-        return
-    welcome_message = repository.get_welcome_message_text(message)
-    if welcome_message:
+@router.message(Command('admin'))
+@router.message(F.text == 'Вернуться в меню',  AdminRoleFilter())
+async def admin_panel(message: Message, state: FSMContext):
+    logger.debug(f'ID пользователя: {message.from_user.id}')
+    if message.from_user.id in BOT_ADMINS_IDS:
         await message.answer(
-                text=welcome_message,
-                reply_markup=welcome_message_kb(),
+            'Добро пожаловать в меню администратора!',
+            reply_markup=admin_panel_kb
         )
-    else:
-        await message.answer('Приветственное сообщение не установлено')
-        await message.answer('Используй\n\n"Отредактировать приветственное сообщение"')
+        logger.warning(f'Пользователь {message.from_user.full_name} @{message.from_user.username} вошел в админ панель')
+    await state.clear()
     await message.delete()
-    await state.clear()
-
-
-@router.message(F.text == 'Отредактировать приветственное сообщение')
-async def edit_welcome_message(message: Message, state: FSMContext):
-    if message.from_user.id != BOT_ADMIN_ID:
-        await message.answer('Только админ может делать это')
-        await message.delete()
-        return
-    await message.answer(
-            'Отправь мне текст для сообщения, можешь использовать встроенное форматирование от ТГ'
-    )
-    await message.delete()
-    await state.set_state(FSM_admin_panel.get_message)
-
-
-@router.message(FSM_admin_panel.get_message)
-async def get_message(message: Message, state: FSMContext):
-    repository.set_welcome_message_text(message.html_text)
-    await message.answer('Текст для приветственного сообщения установлен')
-    await state.clear()
-
-
-@router.message(F.text == 'Установить количество динамических кнопок')
-async def send_amount_of_buttons(message: Message, state: FSMContext):
-    await message.answer('Пришлите мне количество динамических кнопок (числом)')
-    await state.set_state(FSM_admin_panel.get_amount_of_dynamic_buttons)
-
-
-@router.message(FSM_admin_panel.get_amount_of_dynamic_buttons)
-async def get_amount_of_dynamic_buttons(message: Message, state: FSMContext):
-    try:
-        amount = int(message.text)
-    except ValueError:
-        await message.answer('Неверный формат')
-        await message.answer('Пришлите мне количество динамических кнопок (числом)')
-        return
-    repository.set_amount_of_dynamic_buttons(amount)
-    await message.answer(f'Установлено <b>{amount}</b> динамических кнопок для сообщения')
-    await state.clear()
