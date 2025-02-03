@@ -4,6 +4,7 @@ from aiogram import F, Router
 from aiogram.types import Message
 from src.utils.welcome_message import configure_welcome_message
 from src.utils.keyboards.join2group import welcome_keyboard
+from aiogram.exceptions import TelegramBadRequest
 
 router = Router()
 
@@ -20,5 +21,7 @@ async def welcome_new_member(message: Message):
             ),
             reply_markup=(await welcome_keyboard())
         )
-
-    await message.delete()
+    try:
+        await message.delete()
+    except TelegramBadRequest:
+        logger.debug(f'Бот не смог удалить сообщение id:{message.message_id} text:{message.text}')
