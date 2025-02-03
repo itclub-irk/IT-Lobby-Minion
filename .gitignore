@@ -113,6 +113,7 @@ ENV/
 env.bak/
 venv.bak/
 mysql_data/
+postgres_data/
 
 # Spyder project settings
 .spyderproject
